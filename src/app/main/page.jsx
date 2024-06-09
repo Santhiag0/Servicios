@@ -1,12 +1,13 @@
 import React from 'react';
 import Navbar from '@/Components/navbar';
+import ProductList from '@/Components/ProductList';
 
 const Page = () => {
     return (
         
         <div>
             <Navbar/>
-            <h1>Hello, World! ESTE ES EL MAIN</h1>
+            <ProductList/>
         </div>
     );
 };
