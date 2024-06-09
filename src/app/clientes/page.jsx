@@ -1,16 +1,16 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../../Components/navbar";
-import { useState } from "react";
 import Table from "../clientes/components/Table";
 import { useClients } from "../clientes/hooks/useClients";
 import ClientModal from "../clientes/components/Modal";
 
 const PageClient = () => {
-  const { clients, deleteClient, createClient, updateClient } = useClients();
+  const { clients = [], deleteClient, createClient, updateClient } = useClients();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedClient, setSelectedClient] = useState(undefined);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const onClose = () => {
     setIsOpen(false);
@@ -21,6 +21,10 @@ const PageClient = () => {
     setSelectedClient(client);
     setIsOpen(true);
   };
+
+  const filteredClients = clients.filter((client) =>
+    `${client.name} ${client.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <>
@@ -34,7 +38,7 @@ const PageClient = () => {
           isOpen={isOpen}
           onClose={onClose}
           onSubmit={selectedClient ? updateClient : createClient}
-          currentStudent={selectedClient}
+          currentClient={selectedClient}
         />
       )}
       <div className="flex justify-normal w-screen">
@@ -45,10 +49,18 @@ const PageClient = () => {
           Agregar Cliente
         </button>
       </div>
-
+      <div className="flex justify-center mt-5">
+        <input
+          type="text"
+          placeholder="Buscar cliente"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="border rounded py-2 px-4 text-black"
+        />
+      </div>
       <div className="flex py-8 justify-center items-center">
         {clients && (
-          <Table clients={clients} onDelete={deleteClient} onEdit={onEdit} />
+          <Table clients={filteredClients} onDelete={deleteClient} onEdit={onEdit} />
         )}
       </div>
     </>

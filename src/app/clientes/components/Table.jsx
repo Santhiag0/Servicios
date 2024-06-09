@@ -4,7 +4,7 @@ export default function Table({ clients, onDelete, onEdit }) {
   return (
     <div className="flex justify-center items-center p-4">
       <div className="w-full">
-        <h2 className="text-2xl font-bold mb-4">LISTA DE ESTUDIANTES</h2>
+        <h2 className="text-2xl font-bold mb-4">LISTA DE CLIENTES</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {clients.map((client) => (
             <div
