@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import Navbar from "../../Components/navbar";
-import Table from "../clientes/components/Table";
+import Table from "./componentes/Table";
 import { useClients } from "../clientes/hooks/useClients";
-import ClientModal from "../clientes/components/Modal";
+import ClientModal from "./componentes/Modal";
 
 const PageClient = () => {
   const { clients = [], deleteClient, createClient, updateClient } = useClients();
