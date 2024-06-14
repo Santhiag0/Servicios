@@ -6,48 +6,54 @@ export default function StudentModal({
   isOpen,
   onClose,
   onSubmit,
-  currentStudent,
+  currentClient,
 }) {
-  const [student, setStudent] = useState(
-    currentStudent || {
+  const [client, setClient] = useState(
+    currentClient || {
       dni: "",
-      name: "",
+      firstName: "",
       lastName: "",
       address: "",
       phone: "",
+      email: "",
+      dniType: "",
     }
   );
 
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    if (currentStudent) {
-      setStudent(currentStudent);
+    if (currentClient) {
+      setClient(currentClient);
     } else {
-      setStudent({
+      setClient({
         dni: "",
-        name: "",
+        firstName: "",
         lastName: "",
         address: "",
         phone: "",
+        email: "",
+        dniType: "",
       });
     }
-  }, [currentStudent]);
+  }, [currentClient]);
 
   const handleChange = (e) => {
-    setStudent({
-      ...student,
+    setClient({
+      ...client,
       [e.target.name]: e.target.value,
     });
   };
 
   const validate = () => {
     const newErrors = {};
-    if (!student.dni) newErrors.dni = "Cedula es requerida";
-    if (!student.name) newErrors.name = "Nombre es requerido";
-    if (!student.lastName) newErrors.lastName = "Apellido es requerido";
-    if (!student.address) newErrors.address = "Direccion es requerida";
-    if (!student.phone) newErrors.phone = "Telefono es requerido";
+    if (!client.dni) newErrors.dni = "Cedula es requerida";
+    if (!client.firstName) newErrors.name = "Nombre es requerido";
+    if (!client.lastName) newErrors.lastName = "Apellido es requerido";
+    if (!client.address) newErrors.address = "Direccion es requerida";
+    if (!client.phone) newErrors.phone = "Telefono es requerido";
+    if (!client.email) newErrors.email = "Email es requerido";
+    if (!client.dniType) newErrors.dniType = "DniType es requerido";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -56,7 +62,7 @@ export default function StudentModal({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      onSubmit(student);
+      onSubmit(client);
       onClose();
     }
   };
@@ -75,19 +81,38 @@ export default function StudentModal({
                 X
               </button>
               <h2 className="text-xl font-semibold mb-4 text-purple-950">
-                {currentStudent ? "Editar Estudiante" : "Agregar Estudiante"}
+                {currentClient ? "Editar Cliente" : "Agregar Cliente"}
               </h2>
               <form onSubmit={handleSubmit}>
                 <div className="mb-4 text-purple-950">
                   <label htmlFor="dni" className="block text-gray-700">
-                    Cedula:
+                    Tipo de Documento:
+                  </label>
+                  <select
+                    name="dniType"
+                    value={client.dniType || ""}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  >
+                    <option value="">Seleccione...</option>
+                    <option value="Cedula">Cedula</option>
+                    <option value="Pasaporte">Pasaporte</option>
+                    <option value="Ruc">Ruc</option>
+                  </select>
+                  {errors.dniType && (
+                    <p className="text-red-500 text-xs mt-1">{errors.dniType}</p>
+                  )}
+                </div>
+                <div className="mb-4 text-purple-950">
+                  <label htmlFor="dni" className="block text-gray-700">
+                    {client.dniType === "Ruc" ? "RUC" : "Cedula"}:
                   </label>
                   <input
                     type="text"
                     name="dni"
-                    value={student.dni || ""}
+                    value={client.dni || ""}
                     onChange={handleChange}
-                    readOnly={!!currentStudent}
+                    readOnly={!!currentClient}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   />
                   {errors.dni && (
@@ -101,7 +126,7 @@ export default function StudentModal({
                   <input
                     type="text"
                     name="name"
-                    value={student.name || ""}
+                    value={client.firstName || ""}
                     onChange={handleChange}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   />
@@ -116,7 +141,7 @@ export default function StudentModal({
                   <input
                     type="text"
                     name="lastName"
-                    value={student.lastName || ""}
+                    value={client.lastName || ""}
                     onChange={handleChange}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   />
@@ -133,7 +158,7 @@ export default function StudentModal({
                   <input
                     type="text"
                     name="address"
-                    value={student.address || ""}
+                    value={client.address || ""}
                     onChange={handleChange}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   />
@@ -150,7 +175,7 @@ export default function StudentModal({
                   <input
                     type="text"
                     name="phone"
-                    value={student.phone || ""}
+                    value={client.phone || ""}
                     onChange={handleChange}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   />
@@ -158,12 +183,27 @@ export default function StudentModal({
                     <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
                   )}
                 </div>
+                <div className="mb-4 text-purple-950">
+                  <label htmlFor="email" className="block text-gray-700">
+                    Email:
+                  </label>
+                  <input
+                    type="text"
+                    name="email"
+                    value={client.email || ""}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  />
+                  {errors.email && (
+                    <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                  )}
+                </div>
                 <div className="flex">
                   <button
                     className="btn bg-indigo-500 w-6/12 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded"
                     type="submit"
                   >
-                    {currentStudent ? "Editar" : "Agregar"}
+                    {currentClient ? "Editar" : "Agregar"}
                   </button>
                   <button
                     className="btn bg-red-600 w-7/12 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded"

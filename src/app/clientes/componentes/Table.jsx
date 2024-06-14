@@ -12,10 +12,10 @@ export default function Table({ clients, onDelete, onEdit }) {
               className="bg-white p-4 border rounded-lg shadow-md"
             >
               <div className="text-xl font-bold mb-2 text-purple-950">
-                {client.name} {client.lastName}
+                {client.firstName} {client.lastName}
               </div>
               <div className="text-sm mb-1 text-purple-950">
-                <span className="font-semibold text-purple-950">Cedula:</span>{" "}
+                <span className="font-semibold text-purple-950">{client.dniType}: </span>{" "}
                 {client.dni}
               </div>
               <div className="text-sm mb-1 text-purple-950">
@@ -25,6 +25,10 @@ export default function Table({ clients, onDelete, onEdit }) {
               <div className="text-sm mb-1 text-purple-950">
                 <span className="font-semibold text-purple-950">Phone:</span>{" "}
                 {client.phone}
+              </div>
+              <div className="text-sm mb-1 text-purple-950">
+                <span className="font-semibold text-purple-950">Email:</span>{" "}
+                {client.email}
               </div>
               <div className="flex justify-between mt-4 text-purple-950">
                 <button
