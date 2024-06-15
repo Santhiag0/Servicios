@@ -6,12 +6,13 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { Select, MenuItem, InputLabel, FormControl } from "@mui/material";
 
 const CustomModal = ({ open, handleClose, title, onSubmit, currentUser }) => {
   const [user, setUser] = useState({
     username: "",
     password: "",
-    id_role: "",
+    role: "",
     status: true,
   });
 
@@ -65,45 +66,50 @@ const CustomModal = ({ open, handleClose, title, onSubmit, currentUser }) => {
               className: "bg-white",
             }}
           />
-          <TextField
-            label="Contraseña"
-            type="password"
-            name="password"
-            value={user.password}
-            onChange={handleChange}
-            fullWidth
-            InputLabelProps={{
-              className: "text-white",
-            }}
-            InputProps={{
-              className: "bg-white",
-            }}
-          />
-          <TextField
-            label="Rol"
-            name="id_role"
-            value={user.id_role}
-            onChange={handleChange}
-            fullWidth
-            InputLabelProps={{
-              className: "text-white",
-            }}
-            InputProps={{
-              className: "bg-white",
-            }}
-          />
-          <div className="flex items-center space-x-2">
-            <label htmlFor="status" className="text-white">
-              Estado
-            </label>
-            <input
-              type="checkbox"
-              name="status"
-              checked={user.status}
+          {!currentUser && (
+            <TextField
+              label="Contraseña"
+              type="password"
+              name="password"
+              value={user.password}
               onChange={handleChange}
-              className="form-checkbox text-[#6f859b]"
+              fullWidth
+              InputLabelProps={{
+                className: "text-white",
+              }}
+              InputProps={{
+                className: "bg-white",
+              }}
             />
-          </div>
+          )}
+          <FormControl fullWidth>
+            <InputLabel className="text-white">Rol</InputLabel>
+            <Select
+              label="Rol"
+              name="role"
+              value={user.role.id}
+              onChange={handleChange}
+              fullWidth
+              className="bg-white"
+            >
+              <MenuItem value={1}>Cajero</MenuItem>
+              <MenuItem value={2}>Administrador</MenuItem>
+            </Select>
+          </FormControl>
+          {currentUser && (
+            <div className="flex items-center space-x-2">
+              <label htmlFor="status" className="text-white">
+                Estado
+              </label>
+              <input
+                type="checkbox"
+                name="status"
+                checked={user.status}
+                onChange={handleChange}
+                className="form-checkbox text-[#6f859b]"
+              />
+            </div>
+          )}
           <Button
             type="submit"
             variant="contained"

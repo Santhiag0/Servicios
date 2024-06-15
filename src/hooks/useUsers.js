@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-function User({ id, username, password, id_role, status }) {
+function User({ id, username, password, role, status }) {
   this.id = id;
   this.username = username;
   this.password = password;
-  this.id_role = id_role;
+  this.role = role;
   this.status = status;
 }
 
@@ -16,18 +16,21 @@ export const useUsers = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("../data/users.json", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        "https://facturacion-servicios.onrender.com/auth",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODQ1Njk1NywiZXhwIjoxNzE4NDkyOTU3fQ.PPkaWLG6IBArLqwrKk7-h31paRzTy60WWTrAxYPx7mA",
+          },
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
-        const usersArray = data.users;
-        const formtedUsers = usersArray.map((user) => new User(user));
-
+        const formtedUsers = data;
         setUsers(formtedUsers);
       } else {
         throw new Error("Error al cargar los usuarios");
@@ -43,17 +46,27 @@ export const useUsers = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("../data/users.json", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
+      const userBody = {
+        username: user.username,
+        password: user.password,
+        role: user.role === 1 ? "cajero" : "admin",
+      };
+
+      const response = await fetch(
+        "https://facturacion-servicios.onrender.com/auth/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODQ1Njk1NywiZXhwIjoxNzE4NDkyOTU3fQ.PPkaWLG6IBArLqwrKk7-h31paRzTy60WWTrAxYPx7mA",
+          },
+          body: JSON.stringify(userBody),
+        }
+      );
 
       if (response.ok) {
-        fetchUsers();
-        console.log("Usuario agregado correctamente");
+        await fetchUsers();
       } else {
         throw new Error("Error al agregar el usuario");
       }
@@ -72,6 +85,8 @@ export const useUsers = () => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODQ1Njk1NywiZXhwIjoxNzE4NDkyOTU3fQ.PPkaWLG6IBArLqwrKk7-h31paRzTy60WWTrAxYPx7mA",
         },
         body: JSON.stringify(user),
       });
@@ -89,20 +104,24 @@ export const useUsers = () => {
     }
   };
 
-  const deleteUser = async (id) => {
+  const deleteUser = async (username) => {
     setLoading(true);
 
     try {
-      const response = await fetch(`../data/users/${id}.json`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `https://facturacion-servicios.onrender.com/auth/${username}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODQ1Njk1NywiZXhwIjoxNzE4NDkyOTU3fQ.PPkaWLG6IBArLqwrKk7-h31paRzTy60WWTrAxYPx7mA",
+          },
+        }
+      );
 
       if (response.ok) {
-        fetchUsers();
-        console.log("Usuario eliminado correctamente");
+        await fetchUsers();
       } else {
         throw new Error("Error al eliminar el usuario");
       }

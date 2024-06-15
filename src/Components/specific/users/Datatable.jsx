@@ -40,19 +40,18 @@ const useStyles = makeStyles({
   },
 });
 
-function FormattedUser(id, username, id_role, status) {
+function FormattedUser(id, username, role, status) {
   this.id = id;
   this.username = username;
-  this.id_role = id_role;
+  this.role = role;
   this.status = status;
 }
 
-export const Datatable = ({ users }) => {
-  const { editUser, addUser } = useUsers();
+export const Datatable = ({ users, fetchUsers }) => {
+  const { editUser, addUser, deleteUser } = useUsers();
   const classes = useStyles();
   const rows = users.map(
-    (user) =>
-      new FormattedUser(user.id, user.username, user.id_role, user.status)
+    (user) => new FormattedUser(user.id, user.username, user.role, user.status)
   );
   const [open, setOpen] = React.useState(false);
   const [selectedUser, setSelectedUser] = React.useState(null);
@@ -66,15 +65,35 @@ export const Datatable = ({ users }) => {
     setOpen(false);
   };
 
+  const handleSubmit = async (user) => {
+    if (selectedUser) {
+      await editUser(user);
+    } else {
+      await addUser(user);
+    }
+    fetchUsers(); // Fetch the updated list of users
+    handleClose();
+  };
+
+  const handleDelete = async (username) => {
+    await deleteUser(username);
+    fetchUsers(); // Refresh the users list after deletion
+  };
+
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
     { field: "username", headerName: "Usuario", flex: 1 },
     {
-      field: "id_role",
+      field: "role",
       headerName: "Rol",
       flex: 1,
       renderCell: (params) => {
-        return <p>{params.value === 1 ? "Administrador" : "Empleado"}</p>;
+        const roleId = params.value?.id;
+        if (roleId === 1) {
+          return <p>Cajero</p>;
+        } else if (roleId === 2) {
+          return <p>Administrador</p>;
+        }
       },
     },
     {
@@ -90,32 +109,36 @@ export const Datatable = ({ users }) => {
         );
       },
     },
-    {
-      field: "edit",
-      headerName: "Editar",
-      flex: 1,
-      renderCell: (params) => {
-        const user = rows.find((row) => row.id === params.id);
-        const userToEdit = users.find((u) => u.id === user.id);
-        return (
-          <>
-            <IconButton
-              aria-label="edit"
-              onClick={() => handleOpen(userToEdit)}
-            >
-              <BorderColorIcon color="info" />
-            </IconButton>
-          </>
-        );
-      },
-    },
+    // {
+    //   field: "edit",
+    //   headerName: "Editar",
+    //   flex: 1,
+    //   renderCell: (params) => {
+    //     const user = rows.find((row) => row.id === params.id);
+    //     const userToEdit = users.find((u) => u.id === user.id);
+    //     return (
+    //       <>
+    //         <IconButton
+    //           aria-label="edit"
+    //           onClick={() => handleOpen(userToEdit)}
+    //         >
+    //           <BorderColorIcon color="info" />
+    //         </IconButton>
+    //       </>
+    //     );
+    //   },
+    // },
     {
       field: "delete",
       headerName: "Eliminar",
       flex: 1,
       renderCell: (params) => {
+        const user = rows.find((row) => row.id === params.id);
         return (
-          <IconButton aria-label="delete">
+          <IconButton
+            aria-label="delete"
+            onClick={() => handleDelete(user.username)}
+          >
             <DeleteIcon color="warning" />
           </IconButton>
         );
@@ -153,9 +176,7 @@ export const Datatable = ({ users }) => {
         open={open}
         handleClose={handleClose}
         title={selectedUser ? "Editar Usuario" : "Agregar Usuario"}
-        onSubmit={(user) => {
-          selectedUser ? editUser(user) : addUser(user);
-        }}
+        onSubmit={handleSubmit}
         currentUser={selectedUser}
       />
     </div>

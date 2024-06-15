@@ -16,7 +16,11 @@ const Page = () => {
     <div>
       <Navbar />
       <div className="w-1/2 mx-auto mt-4">
-        {loading ? <p>Cargando...</p> : <Datatable users={users} />}
+        {loading ? (
+          <p>Cargando...</p>
+        ) : (
+          <Datatable users={users} fetchUsers={fetchUsers} />
+        )}
       </div>
     </div>
   );
