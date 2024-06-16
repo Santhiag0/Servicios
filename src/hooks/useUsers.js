@@ -23,7 +23,7 @@ export const useUsers = () => {
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODQ1Njk1NywiZXhwIjoxNzE4NDkyOTU3fQ.PPkaWLG6IBArLqwrKk7-h31paRzTy60WWTrAxYPx7mA",
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU1MTcwNCwiZXhwIjoxNzE4NTg3NzA0fQ.PbFrkGBM0PojenvHY2fJY_RoKTAaEUt-jfv_ZwCe4wU",
           },
         }
       );
@@ -59,7 +59,7 @@ export const useUsers = () => {
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODQ1Njk1NywiZXhwIjoxNzE4NDkyOTU3fQ.PPkaWLG6IBArLqwrKk7-h31paRzTy60WWTrAxYPx7mA",
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU1MTcwNCwiZXhwIjoxNzE4NTg3NzA0fQ.PbFrkGBM0PojenvHY2fJY_RoKTAaEUt-jfv_ZwCe4wU",
           },
           body: JSON.stringify(userBody),
         }
@@ -86,7 +86,7 @@ export const useUsers = () => {
         headers: {
           "Content-Type": "application/json",
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODQ1Njk1NywiZXhwIjoxNzE4NDkyOTU3fQ.PPkaWLG6IBArLqwrKk7-h31paRzTy60WWTrAxYPx7mA",
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU1MTcwNCwiZXhwIjoxNzE4NTg3NzA0fQ.PbFrkGBM0PojenvHY2fJY_RoKTAaEUt-jfv_ZwCe4wU",
         },
         body: JSON.stringify(user),
       });
@@ -115,7 +115,7 @@ export const useUsers = () => {
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODQ1Njk1NywiZXhwIjoxNzE4NDkyOTU3fQ.PPkaWLG6IBArLqwrKk7-h31paRzTy60WWTrAxYPx7mA",
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU1MTcwNCwiZXhwIjoxNzE4NTg3NzA0fQ.PbFrkGBM0PojenvHY2fJY_RoKTAaEUt-jfv_ZwCe4wU",
           },
         }
       );

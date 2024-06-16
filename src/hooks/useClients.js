@@ -18,7 +18,7 @@ export function useClients() {
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODM4NDMwNCwiZXhwIjoxNzE4NDIwMzA0fQ.u6OgeGtGEoGmZQ9GIKEzTlRzmDXe2xfIvL8FHpHElOM",
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU1MTcwNCwiZXhwIjoxNzE4NTg3NzA0fQ.PbFrkGBM0PojenvHY2fJY_RoKTAaEUt-jfv_ZwCe4wU",
           },
         }
       );
@@ -45,7 +45,7 @@ export function useClients() {
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODM4NDMwNCwiZXhwIjoxNzE4NDIwMzA0fQ.u6OgeGtGEoGmZQ9GIKEzTlRzmDXe2xfIvL8FHpHElOM",
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU1MTcwNCwiZXhwIjoxNzE4NTg3NzA0fQ.PbFrkGBM0PojenvHY2fJY_RoKTAaEUt-jfv_ZwCe4wU",
           },
           body: JSON.stringify(client),
         }
@@ -68,7 +68,7 @@ export function useClients() {
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODM4NDMwNCwiZXhwIjoxNzE4NDIwMzA0fQ.u6OgeGtGEoGmZQ9GIKEzTlRzmDXe2xfIvL8FHpHElOM",
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU1MTcwNCwiZXhwIjoxNzE4NTg3NzA0fQ.PbFrkGBM0PojenvHY2fJY_RoKTAaEUt-jfv_ZwCe4wU",
           },
           body: JSON.stringify(client),
         }
@@ -92,7 +92,7 @@ export function useClients() {
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODM4NDMwNCwiZXhwIjoxNzE4NDIwMzA0fQ.u6OgeGtGEoGmZQ9GIKEzTlRzmDXe2xfIvL8FHpHElOM",
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU1MTcwNCwiZXhwIjoxNzE4NTg3NzA0fQ.PbFrkGBM0PojenvHY2fJY_RoKTAaEUt-jfv_ZwCe4wU",
           },
         }
       );

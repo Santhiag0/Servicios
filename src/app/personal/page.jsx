@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect } from "react";
-import Navbar from "@/Components/navbar";
-import { useUsers } from "@/hooks/useUsers";
-import { Datatable } from "@/Components/specific/users/Datatable";
+import Navbar from "../../Components/navbar";
+import { useUsers } from "../../hooks/useUsers";
+import { Datatable } from "../../Components/specific/users/Datatable";
 
 const Page = () => {
   const { users, loading, fetchUsers } = useUsers();
