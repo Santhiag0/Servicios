@@ -2,31 +2,20 @@
 
 import React, { useEffect, useState } from 'react';
 import Invoice from './Invoice';
+import useProductCategoryManager from '../hooks/useProductCategoryManager'; 
 
 const ProductList = () => {
-    const [products, setProducts] = useState([]);
+    const { categories, products, loading } = useProductCategoryManager();
     const [counters, setCounters] = useState({});
     const [addedProducts, setAddedProducts] = useState([]);
 
     useEffect(() => {
-        const getData = async () => {
-            try {
-                const response = await fetch('https://fakestoreapi.com/products');
-                const data = await response.json();
-                setProducts(data);
-
-                const initialCounters = data.reduce((acc, product) => {
-                    acc[product.id] = 0;
-                    return acc;
-                }, {});
-                setCounters(initialCounters);
-            } catch (error) {
-                console.error('Error fetching products:', error);
-            }
-        };
-
-        getData();
-    }, []);
+        const initialCounters = products.reduce((acc, product) => {
+            acc[product.id] = 0;
+            return acc;
+        }, {});
+        setCounters(initialCounters);
+    }, [products]);
 
     const increaseCounter = (id) => {
         setCounters((prevCounters) => {
@@ -75,10 +64,10 @@ const ProductList = () => {
                             {products.map((product) => (
                                 <li key={product.id} className="flex items-center bg-white dark:bg-white border border-gray-300 dark:border-gray-600 rounded-lg my-2 p-5 shadow-md dark:shadow-lg">
                                     <div className="flex-shrink-0 w-24 h-24 flex items-center justify-center mr-5">
-                                        <img src={product.image} alt={product.title} className="w-full h-full object-contain" />
+                                    <img src={product.imagen} alt={product.name} className="w-full h-full object-contain" />
                                     </div>
                                     <div className="flex-grow text-left">
-                                        <strong className="block text-lg font-medium text-gray-800 ">{product.title}</strong>
+                                        <strong className="block text-lg font-medium text-gray-800 ">{product.name}</strong>
                                         <p className="mt-2 text-gray-600">Precio: ${product.price}</p>
                                     </div>
                                     <div className="flex items-center mt-4">

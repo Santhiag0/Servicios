@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const Invoice = ({ addedProducts, onRemoveProduct }) => {
     const [customerType, setCustomerType] = useState('consumer');
@@ -17,13 +17,6 @@ const Invoice = ({ addedProducts, onRemoveProduct }) => {
         } else {
             setIdNumber('');
         }
-    };
-
-    const formatName = (name) => {
-        if (name.length > 23) {
-            return name.substring(0, 23) + '...';
-        }
-        return name.padEnd(26, ' ');
     };
 
     return (
@@ -62,7 +55,7 @@ const Invoice = ({ addedProducts, onRemoveProduct }) => {
                 </div>
                 {addedProducts.map(product => (
                     <div key={product.id} className="flex justify-between items-center mb-2">
-                        <span className='text-gray-800 w-2/5 truncate'>{product.title}</span>
+                        <span className='text-gray-800 w-2/5 truncate'>{product.name}</span>
                         <span className='text-gray-800 w-1/5 text-center'>{product.quantity}</span>
                         <span className='text-gray-800 w-1/5 text-right'>${product.price.toFixed(2)}</span>
                         <button onClick={() => onRemoveProduct(product.id)} className="ml-4 text-red-500">X</button>
