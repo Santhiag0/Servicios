@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import CustomModal from "./StudentsModal";
-import { useUsers } from "@/hooks/useUsers";
+import { useUsers } from "../../../hooks/useUsers";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 

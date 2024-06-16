@@ -1,0 +1,28 @@
+
+[
+    {
+      "id": 1,
+      "dni": "0101010101",
+      "name": "Juan",
+      "lastName": "Perez",
+      "address": "Calle Falsa 123",
+      "phone": "0991234567"
+    },
+    {
+      "id": 2,
+      "dni": "0202020202",
+      "name": "Maria",
+      "lastName": "Garcia",
+      "address": "Avenida Siempre Viva 742",
+      "phone": "0997654321"
+    },
+    {
+      "id": 3,
+      "dni": "0303030303",
+      "name": "Carlos",
+      "lastName": "Lopez",
+      "address": "Calle de la Amargura 555",
+      "phone": "0991122334"
+    }
+  ]
+  
