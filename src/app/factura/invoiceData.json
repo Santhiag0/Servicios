@@ -1,0 +1,42 @@
+{
+    "id": 4,
+    "client": {
+      "id": 4,
+      "dni": "1805472386",
+      "firstName": "Henry",
+      "lastName": "Cortez",
+      "secondName": null,
+      "secondLastName": null,
+      "address": "Ficoa",
+      "phone": "0998655774",
+      "email": "henry@yahoo.es",
+      "dniType": "cedula",
+      "status": true
+    },
+    "dateSale": "2024-06-10T17:10:57.979812",
+    "subtotal": 60.0,
+    "total": 69.0,
+    "status": true,
+    "salesDetails": [
+      {
+        "id": 4,
+        "product": {
+          "id": 5,
+          "name": "Producto1",
+          "imagen": "https://imagenesservices.s3.sa-east-1.amazonaws.com/d9d3a042-6ece-4855-8012-9bb0162ba6ad_OWL.jpg",
+          "stock": 80,
+          "price": 10.0,
+          "iva": {
+            "id": 2,
+            "percent": "15%",
+            "value": 0.15
+          },
+          "active": true
+        },
+        "quantity": 6,
+        "price": 10.0,
+        "subtotal": 60.0
+      } 
+    ]
+  }
+  

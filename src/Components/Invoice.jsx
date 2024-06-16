@@ -1,5 +1,6 @@
 "use client"
 
+import Link from 'next/link';
 import React, { useState } from 'react';
 
 const Invoice = ({ addedProducts, onRemoveProduct }) => {
@@ -19,14 +20,27 @@ const Invoice = ({ addedProducts, onRemoveProduct }) => {
         }
     };
 
+    const handleInvoice = () => {
+        
+        if (addedProducts.length === 0) {
+            alert('No hay productos añadidos.');
+            return;
+        }
+        alert('Compra realizada con éxito!');
+        <Link href={'./facturas'}></Link>
+    };
+
+    
+
+
     return (
         <div className="w-2/5 bg-white p-8 rounded-lg shadow-md">
             <h2 className="text-2xl font-bold mb-4 text-gray-700">FACTURA</h2>
             <div className="mb-4">
                 <label htmlFor="customerType" className="block text-gray-700 mb-2">Tipo de Cliente</label>
-                <select 
-                    id="customerType" 
-                    value={customerType} 
+                <select
+                    id="customerType"
+                    value={customerType}
                     onChange={handleCustomerTypeChange}
                     className="p-2 border border-gray-300 rounded-md w-full text-gray-700"
                 >
@@ -37,10 +51,10 @@ const Invoice = ({ addedProducts, onRemoveProduct }) => {
             {customerType === 'data' && (
                 <div className="mb-4">
                     <label htmlFor="idNumber" className="block text-gray-700 mb-2">Cédula</label>
-                    <input 
-                        type="text" 
-                        id="idNumber" 
-                        value={idNumber} 
+                    <input
+                        type="text"
+                        id="idNumber"
+                        value={idNumber}
                         onChange={(e) => setIdNumber(e.target.value)}
                         className="p-2 border border-gray-300 rounded-md w-full text-gray-700"
                     />
@@ -75,8 +89,8 @@ const Invoice = ({ addedProducts, onRemoveProduct }) => {
                     <span>${total.toFixed(2)}</span>
                 </div>
             </div>
-            <button 
-                onClick={() => alert('Se ha realizado la compra')}
+            <button
+                onClick={handleInvoice}
                 className="mt-4 w-full bg-green-500 text-white p-2 rounded-md"
             >
                 COMPRAR
