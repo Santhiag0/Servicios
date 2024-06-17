@@ -11,6 +11,13 @@ import ClientModal from "./ClientModal";
 import { useClients } from "../../../hooks/useClients";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const DataGridStyled = styled(DataGrid)({
   "& .MuiDataGrid-columnHeaders": {
@@ -56,8 +63,8 @@ function FormattedClient(
   this.status = status;
 }
 
-export const Datatable = ({ clients }) => {
-  const { editClient, addClient, deleteClient, fetchClients } = useClients();
+export const Datatable = ({ clients, fetchClients }) => {
+  const { editClient, addClient, deleteClient } = useClients();
   const rows = clients.map(
     (client) =>
       new FormattedClient(
@@ -71,22 +78,70 @@ export const Datatable = ({ clients }) => {
         client.status
       )
   );
+
   const [open, setOpen] = React.useState(false);
   const [selectedClient, setSelectedClient] = React.useState(null);
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+  const [snackbarMessage, setSnackbarMessage] = React.useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = React.useState("success");
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [clientToDelete, setClientToDelete] = React.useState(null);
 
   const handleOpen = (client) => {
+    if (client && client.id === 0) {
+      setSnackbarMessage("No se puede editar el consumidor final");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
+      return;
+    }
     setSelectedClient(client);
     setOpen(true);
   };
+
   const handleClose = () => {
     setSelectedClient(null);
     setOpen(false);
-    fetchClients(); // Refresh clients after closing the modal
+    setTimeout(fetchClients, 5000);
   };
 
-  const handleDelete = async (id) => {
-    await deleteClient(id);
-    fetchClients(); // Refresh clients after deleting a client
+  const handleDelete = (id) => {
+    setClientToDelete(id);
+    setDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      await deleteClient(clientToDelete);
+      setSnackbarMessage("Cliente eliminado con éxito");
+      setSnackbarSeverity("success");
+    } catch (error) {
+      setSnackbarMessage("Error eliminando cliente");
+      setSnackbarSeverity("error");
+    } finally {
+      setSnackbarOpen(true);
+      setDialogOpen(false);
+      setTimeout(fetchClients, 5000);
+    }
+  };
+
+  const handleSubmit = async (client) => {
+    try {
+      if (selectedClient) {
+        await editClient(client);
+        setSnackbarMessage("Cliente editado con éxito");
+      } else {
+        await addClient(client);
+        setSnackbarMessage("Cliente creado con éxito");
+      }
+      setSnackbarSeverity("success");
+    } catch (error) {
+      setSnackbarMessage("Error guardando cliente");
+      setSnackbarSeverity("error");
+    } finally {
+      setSnackbarOpen(true);
+      handleClose();
+      setTimeout(fetchClients, 5000);
+    }
   };
 
   const columns = [
@@ -129,10 +184,11 @@ export const Datatable = ({ clients }) => {
       headerName: "Eliminar",
       flex: 1,
       renderCell: (params) => {
+        const client = rows.find((row) => row.id === params.id);
         return (
           <IconButton
             aria-label="delete"
-            onClick={() => handleDelete(params.id)}
+            onClick={() => handleDelete(client.id)}
           >
             <DeleteIcon color="warning" />
           </IconButton>
@@ -170,12 +226,41 @@ export const Datatable = ({ clients }) => {
         open={open}
         handleClose={handleClose}
         title={selectedClient ? "Editar Cliente" : "Agregar Cliente"}
-        onSubmit={(client) => {
-          selectedClient ? editClient(client) : addClient(client);
-          fetchClients(); // Refresh clients after adding or editing a client
-        }}
+        onSubmit={handleSubmit}
         currentClient={selectedClient}
       />
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <MuiAlert
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
+      <Dialog
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+      >
+        <DialogTitle>Confirmar Eliminación</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            ¿Está seguro de que desea eliminar este cliente?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDialogOpen(false)} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={confirmDelete} color="primary" autoFocus>
+            Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
