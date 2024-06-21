@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 
 export function useClients() {
@@ -17,9 +18,7 @@ export function useClients() {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU1MTcwNCwiZXhwIjoxNzE4NTg3NzA0fQ.PbFrkGBM0PojenvHY2fJY_RoKTAaEUt-jfv_ZwCe4wU",
-          },
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",          },
         }
       );
 
@@ -44,8 +43,7 @@ export function useClients() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU1MTcwNCwiZXhwIjoxNzE4NTg3NzA0fQ.PbFrkGBM0PojenvHY2fJY_RoKTAaEUt-jfv_ZwCe4wU",
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",  
           },
           body: JSON.stringify(client),
         }
@@ -67,15 +65,15 @@ export function useClients() {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU1MTcwNCwiZXhwIjoxNzE4NTg3NzA0fQ.PbFrkGBM0PojenvHY2fJY_RoKTAaEUt-jfv_ZwCe4wU",
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",  
           },
           body: JSON.stringify(client),
         }
       );
 
       if (response.ok) {
-        fetchClients();
+        await fetchClients();
+        await window.location.reload()
       }
     } catch (error) {
       console.error("Error editing client", error);
@@ -91,8 +89,7 @@ export function useClients() {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU1MTcwNCwiZXhwIjoxNzE4NTg3NzA0fQ.PbFrkGBM0PojenvHY2fJY_RoKTAaEUt-jfv_ZwCe4wU",
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",  
           },
         }
       );

@@ -1,12 +1,13 @@
 import React from 'react';
 import Navbar from '@/Components/navbar';
+import Facturas from '@/Components/Facturas';
 
 const Page = () => {
     return (
         
         <div>
             <Navbar/>
-            <h1>Hello, World! FACTURACION</h1>
+            <Facturas/>
         </div>
     );
 };

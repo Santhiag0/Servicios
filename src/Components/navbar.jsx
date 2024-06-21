@@ -26,8 +26,8 @@ const Navbar = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link href="/facturacion" className="text-white hover:text-gray-400 transition duration-300">
-                        Facturación
+                    <Link href="/facturas" className="text-white hover:text-gray-400 transition duration-300">
+                        Facturas
                     </Link>
                 </li>
                 <Link href="/" className=" mx-3 text-white hover:text-gray-400 transition duration-300">

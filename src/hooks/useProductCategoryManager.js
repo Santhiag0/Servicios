@@ -8,28 +8,34 @@ const useProductCategoryManager = () => {
   const fetchCategories = async () => {
     setLoading(true);
     try {
-      const response = await fetch("https://facturacion-servicios.onrender.com/api/category", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU1MTcwNCwiZXhwIjoxNzE4NTg3NzA0fQ.PbFrkGBM0PojenvHY2fJY_RoKTAaEUt-jfv_ZwCe4wU",
-        },
-      });
+        const response = await fetch("https://facturacion-servicios.onrender.com/api/category", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",                
+              },
+        });
 
-      if (response.ok) {
-        const data = await response.json();
-        setCategories(data);
-        const allProducts = data.flatMap(category => category.products.map(product => ({ ...product, category: category.name, categoryId: category.id })));
-        setProducts(allProducts);
-      } else {
-        throw new Error("Error al cargar las categorías y productos");
-      }
+        if (response.ok) {
+            const data = await response.json();
+            setCategories(data);
+
+            const allProducts = data.flatMap(category => 
+                category.products
+                    .filter(product => product.active)
+                    .map(product => ({ ...product, category: category.name, categoryId: category.id }))
+            );
+            setProducts(allProducts);
+        } else {
+            throw new Error("Error al cargar las categorías y productos");
+        }
     } catch (error) {
-      console.error(error);
+        console.error(error);
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
+
 
   const addCategory = async (category) => {
     setLoading(true);
@@ -38,8 +44,7 @@ const useProductCategoryManager = () => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU1MTcwNCwiZXhwIjoxNzE4NTg3NzA0fQ.PbFrkGBM0PojenvHY2fJY_RoKTAaEUt-jfv_ZwCe4wU",
-            },
+                Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",            },
             body: JSON.stringify(category),
         });
 
@@ -56,29 +61,29 @@ const useProductCategoryManager = () => {
 };
 
 
-  const editCategory = async (id, updatedCategory) => {
-    setLoading(true);
-    try {
+const editCategory = async (id, updatedCategory) => {
+  setLoading(true);
+  try {
       const response = await fetch(`https://facturacion-servicios.onrender.com/api/category/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU1MTcwNCwiZXhwIjoxNzE4NTg3NzA0fQ.PbFrkGBM0PojenvHY2fJY_RoKTAaEUt-jfv_ZwCe4wU",
-        },
-        body: JSON.stringify(updatedCategory),
+          method: "PUT",
+          headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",          },
+          body: JSON.stringify(updatedCategory),
       });
 
       if (response.ok) {
-        await fetchCategories();
+          await fetchCategories();
       } else {
-        throw new Error("Error al editar la categoría");
+          throw new Error("Error al editar la categoría");
       }
-    } catch (error) {
+  } catch (error) {
       console.error(error);
-    } finally {
+  } finally {
       setLoading(false);
-    }
-  };
+  }
+};
+
 
   const deleteCategory = async (id) => {
     setLoading(true);
@@ -87,8 +92,7 @@ const useProductCategoryManager = () => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU1MTcwNCwiZXhwIjoxNzE4NTg3NzA0fQ.PbFrkGBM0PojenvHY2fJY_RoKTAaEUt-jfv_ZwCe4wU",
-        },
+          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",        },
       });
 
       if (response.ok) {
@@ -110,8 +114,7 @@ const useProductCategoryManager = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU1MTcwNCwiZXhwIjoxNzE4NTg3NzA0fQ.PbFrkGBM0PojenvHY2fJY_RoKTAaEUt-jfv_ZwCe4wU",
-        },
+          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",        },
         body: JSON.stringify(product),
       });
 
@@ -134,8 +137,7 @@ const useProductCategoryManager = () => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU1MTcwNCwiZXhwIjoxNzE4NTg3NzA0fQ.PbFrkGBM0PojenvHY2fJY_RoKTAaEUt-jfv_ZwCe4wU",
-        },
+          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",        },
         body: JSON.stringify(updatedProduct),
       });
 
@@ -154,12 +156,11 @@ const useProductCategoryManager = () => {
   const deleteProduct = async (id) => {
     setLoading(true);
     try {
-      const response = await fetch(`https://facturacion-servicios.onrender.com/api/productos/${id}`, {
-        method: "DELETE",
+      const response = await fetch(`https://facturacion-servicios.onrender.com/api/productos/activation/${id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU1MTcwNCwiZXhwIjoxNzE4NTg3NzA0fQ.PbFrkGBM0PojenvHY2fJY_RoKTAaEUt-jfv_ZwCe4wU",
-        },
+          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",        },
       });
 
       if (response.ok) {

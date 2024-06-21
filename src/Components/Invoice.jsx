@@ -1,22 +1,44 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import useInvoiceManager from '../hooks/useInvoiceManager';
+import PayButton from './PayButton';
 
 const Invoice = ({ addedProducts, onRemoveProduct }) => {
+    const { client, loading, error, fetchClientByDni } = useInvoiceManager();
     const [customerType, setCustomerType] = useState('consumer');
-    const [idNumber, setIdNumber] = useState('');
+    const [dni, setDni] = useState('9999999999999');
+    const [ivaPercentage, setIvaPercentage] = useState(15);
 
     const subtotal = addedProducts.reduce((acc, product) => acc + product.price * product.quantity, 0);
-    const iva = subtotal * 0.15;
+    const iva = subtotal * (ivaPercentage / 100);
     const total = subtotal + iva;
 
     const handleCustomerTypeChange = (e) => {
-        setCustomerType(e.target.value);
-        if (e.target.value === 'consumer') {
-            setIdNumber('9999999999');
+        const selectedType = e.target.value;
+        setCustomerType(selectedType);
+        if (selectedType === 'consumer') {
+            setDni('9999999999999');
         } else {
-            setIdNumber('');
+            setDni('');
         }
+    };
+
+    const handleValidateClient = () => {
+        if (dni) {
+            fetchClientByDni(dni);
+        }
+    };
+
+    useEffect(() => {
+        if (customerType === 'consumer') {
+            fetchClientByDni('9999999999999');
+        }
+    }, [customerType]);
+
+    const handlePaymentSuccess = () => {
+        alert('Se ha realizado la compra');
+    window.location.reload();
     };
 
     return (
@@ -36,14 +58,40 @@ const Invoice = ({ addedProducts, onRemoveProduct }) => {
             </div>
             {customerType === 'data' && (
                 <div className="mb-4">
-                    <label htmlFor="idNumber" className="block text-gray-700 mb-2">Cédula</label>
-                    <input 
-                        type="text" 
-                        id="idNumber" 
-                        value={idNumber} 
-                        onChange={(e) => setIdNumber(e.target.value)}
-                        className="p-2 border border-gray-300 rounded-md w-full text-gray-700"
-                    />
+                    <label htmlFor="dni" className="block text-gray-700 mb-2">Cédula</label>
+                    <div className="flex">
+                        <input 
+                            type="text" 
+                            id="dni" 
+                            value={dni} 
+                            onChange={(e) => setDni(e.target.value)}
+                            className="p-2 border border-gray-300 rounded-md w-full text-gray-700"
+                        />
+                        <button 
+                            onClick={handleValidateClient}
+                            className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md"
+                        >
+                            Validar
+                        </button>
+                    </div>
+                    {loading && <p className="text-gray-700 mt-2">Cargando...</p>}
+                    {error && <p className="text-red-500 mt-2">Cliente no encontrado</p>}
+                    {client && (
+                        <div className="mt-4">
+                            <p className="text-gray-700"><strong>Nombre:</strong> {client.firstName} {client.lastName}</p>
+                            <p className="text-gray-700"><strong>Dirección:</strong> {client.address}</p>
+                            <p className="text-gray-700"><strong>Teléfono:</strong> {client.phone}</p>
+                            <p className="text-gray-700"><strong>Email:</strong> {client.email}</p>
+                        </div>
+                    )}
+                </div>
+            )}
+            {customerType === 'consumer' && (
+                <div className="mt-4">
+                    <p className="text-gray-700"><strong>Nombre:</strong> Consumidor Final</p>
+                    <p className="text-gray-700"><strong>Dirección:</strong> Dirección Genérica</p>
+                    <p className="text-gray-700"><strong>Teléfono:</strong> 9999999999</p>
+                    <p className="text-gray-700"><strong>Email:</strong> consumidor@final.com</p>
                 </div>
             )}
             <div className="mb-4">
@@ -66,8 +114,17 @@ const Invoice = ({ addedProducts, onRemoveProduct }) => {
                     <span className='text-gray-800'>Subtotal:</span>
                     <span className='text-gray-800'>${subtotal.toFixed(2)}</span>
                 </div>
+                <div className="flex justify-between items-center text-gray-800">
+                    <span>IVA (%):</span>
+                    <input 
+                        type="number" 
+                        value={ivaPercentage} 
+                        onChange={(e) => setIvaPercentage(e.target.value)} 
+                        className="p-1 border border-gray-300 rounded-md w-16 text-center text-gray-800"
+                    />
+                </div>
                 <div className="flex justify-between text-gray-800">
-                    <span>IVA 15%:</span>
+                    <span>IVA {ivaPercentage}%:</span>
                     <span>${iva.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between font-bold text-gray-800">
@@ -75,12 +132,7 @@ const Invoice = ({ addedProducts, onRemoveProduct }) => {
                     <span>${total.toFixed(2)}</span>
                 </div>
             </div>
-            <button 
-                onClick={() => alert('Se ha realizado la compra')}
-                className="mt-4 w-full bg-green-500 text-white p-2 rounded-md"
-            >
-                COMPRAR
-            </button>
+            <PayButton addedProducts={addedProducts} clientDni={dni} onSuccess={handlePaymentSuccess} />
         </div>
     );
 };

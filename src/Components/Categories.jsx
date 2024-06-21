@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import useProductCategoryManager from '../hooks/useProductCategoryManager';
+import EditCategory from './EditCategory';
 
 const Categories = () => {
     const { categories, products, loading, addCategory, editCategory, deleteCategory, addProduct, editProduct, deleteProduct } = useProductCategoryManager();
@@ -9,8 +10,9 @@ const Categories = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [currentProduct, setCurrentProduct] = useState(null);
     const [newCategoryModalOpen, setNewCategoryModalOpen] = useState(false);
-    const [newCategory, setNewCategory] = useState('');
     const [currentCategory, setCurrentCategory] = useState(null);
+    const [categoryName, setCategoryName] = useState('');
+    const [categoryDescription, setCategoryDescription] = useState('');
 
     const filteredProducts = selectedCategory === 'all'
         ? products
@@ -40,23 +42,25 @@ const Categories = () => {
 
     const handleAddCategory = () => {
         setCurrentCategory(null);
+        setCategoryName('');
+        setCategoryDescription('');
         setNewCategoryModalOpen(true);
     };
 
     const handleEditCategory = (category) => {
         setCurrentCategory(category);
-        setNewCategory(category.name);
+        setCategoryName(category.name);
+        setCategoryDescription(category.description);
         setNewCategoryModalOpen(true);
     };
 
-    const handleSaveCategory = (categoryData) => {
+    const handleSaveCategory = () => {
+        const categoryData = { name: categoryName, description: categoryDescription };
         if (currentCategory && currentCategory.id) {
             editCategory(currentCategory.id, categoryData);
         } else {
             addCategory(categoryData);
         }
-        setNewCategory('');
-        setCurrentCategory(null);
         setNewCategoryModalOpen(false);
     };
 
@@ -67,6 +71,7 @@ const Categories = () => {
         const [stock, setStock] = useState(product ? product.stock : 0);
         const [price, setPrice] = useState(product ? product.price : 0.0);
         const [newCategory, setNewCategory] = useState('');
+        const [fileName, setFileName] = useState('');
 
         useEffect(() => {
             if (product) {
@@ -77,6 +82,19 @@ const Categories = () => {
                 setPrice(product.price);
             }
         }, [product]);
+
+        const handleImageChange = (e) => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const base64String = reader.result.split(',')[1];
+                setImage(base64String);
+                setFileName(file.name);
+            };
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        };
 
         const handleSave = () => {
             const selectedCategory = newCategory ? newCategory : category;
@@ -102,13 +120,13 @@ const Categories = () => {
                     </div>
 
                     <div className="mb-2">
-                        <label className="block text-gray-200 mb-1">Image URL</label>
+                        <label className="block text-gray-200 mb-1">Image</label>
                         <input
-                            type="text"
-                            value={image}
-                            onChange={(e) => setImage(e.target.value)}
-                            className="p-2 border rounded w-full text-black"
+                            type="file"
+                            onChange={handleImageChange}
+                            className="mt-2 p-2 border rounded w-full text-black"
                         />
+                        {fileName && <p className="mt-2 text-green-500">Archivo subido: {fileName}</p>}
                     </div>
 
                     <div className="mb-2">
@@ -153,9 +171,8 @@ const Categories = () => {
             </div>
         );
     };
-    const NewCategoryModal = ({ isOpen, onClose, onSave }) => {
-        const [name, setName] = useState('');
-        const [description, setDescription] = useState('');
+
+    const NewCategoryModal = ({ isOpen, onClose, onSave, name, setName, description, setDescription }) => {
 
         const handleSave = () => {
             onSave({ name, description });
@@ -169,7 +186,7 @@ const Categories = () => {
         return (
             <div className="text-black fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                 <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-                    <h2 className="text-xl font-bold mb-4">Add Category</h2>
+                    <h2 className="text-xl font-bold mb-4">{currentCategory ? 'Edit Category' : 'Add Category'}</h2>
                     <input
                         type="text"
                         placeholder="Category Name"
@@ -193,7 +210,6 @@ const Categories = () => {
         );
     };
 
-
     return (
         <div className='bg-gray-100 dark:bg-gray-800'>
             <div className="flex flex-col items-center p-5 font-sans">
@@ -216,6 +232,7 @@ const Categories = () => {
                     <div className="flex space-x-4">
                         <button onClick={handleAddProduct} className="mb-4 p-2 bg-blue-500 text-white rounded">Add Product</button>
                         <button onClick={handleAddCategory} className="mb-4 p-2 bg-green-500 text-white rounded">Add Category</button>
+                        <EditCategory/>
                     </div>
                     {loading ? (
                         <p className="text-gray-800 dark:text-gray-200">Loading products...</p>
@@ -225,10 +242,12 @@ const Categories = () => {
                                 <li key={product.id} className="flex items-center bg-white dark:bg-white border-gray-300 dark:border-gray-200 rounded-xl my-2 p-5 shadow-md">
                                     <div className="flex-shrink-0 w-24 h-24 flex items-center justify-center mr-5">
                                         <img src={product.imagen} alt={product.name} className="w-full h-full object-contain" />
+                                    {/* //<img src={product.imagen} alt={product.name} className="w-full h-full object-contain" /> */}
                                     </div>
                                     <div className="flex-grow text-left">
                                         <strong className="block text-lg font-medium text-gray-800 dark:text-black ">{product.name.toUpperCase()}</strong>
-                                        <p className="mt-2 text-gray-600 dark:text-gray-600">Precio: ${product.price}</p>
+                                        <p className="mt-2  font-medium text-black dark:text-black">Precio: ${product.price}</p>
+                                        <p className="mt-2 text-black dark:text-black">Cantidad: {product.stock}</p>
                                         <button onClick={() => handleEditProduct(product)} className="mt-2 p-2 bg-yellow-500 text-white rounded">Edit</button>
                                         <button onClick={() => deleteProduct(product.id)} className="mt-2 ml-2 p-2 bg-red-500 text-white rounded">Delete</button>
                                     </div>
@@ -251,6 +270,10 @@ const Categories = () => {
                 isOpen={newCategoryModalOpen}
                 onClose={() => setNewCategoryModalOpen(false)}
                 onSave={handleSaveCategory}
+                name={categoryName}
+                setName={setCategoryName}
+                description={categoryDescription}
+                setDescription={setCategoryDescription}
             />
         </div>
     );
