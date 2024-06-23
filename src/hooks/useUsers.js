@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { getToken } from '@/utils/auth';
+
 
 function User({ id, username, password, role, status }) {
   this.id = id;
@@ -16,13 +18,16 @@ export const useUsers = () => {
     setLoading(true);
 
     try {
+      const token = getToken();
+
       const response = await fetch(
         "https://facturacion-servicios.onrender.com/auth",
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",            
+            Authorization: 
+            `Bearer ${token}`,
           },
         }
       );
@@ -50,14 +55,16 @@ export const useUsers = () => {
         password: user.password,
         role: user.role === 1 ? "cajero" : "admin",
       };
-
+     
+      const token = getToken();
       const response = await fetch(
         "https://facturacion-servicios.onrender.com/auth/register",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",         
+            Authorization: 
+            `Bearer ${token}`
           },
           body: JSON.stringify(userBody),
         }
@@ -79,11 +86,13 @@ export const useUsers = () => {
     setLoading(true);
 
     try {
+      const token = getToken();
       const response = await fetch("../data/users.json", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",       
+          Authorization: 
+          `Bearer ${token}`,
         },
         body: JSON.stringify(user),
       });
@@ -105,13 +114,16 @@ export const useUsers = () => {
     setLoading(true);
 
     try {
+      const token = getToken();
+
       const response = await fetch(
         `https://facturacion-servicios.onrender.com/auth/${username}`,
         {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",         
+            Authorization: 
+            `Bearer ${token}`,
           },
         }
       );

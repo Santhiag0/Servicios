@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from "react";
+import { getToken } from '@/utils/auth';
 
 export function useClients() {
   const [clients, setClients] = useState([]);
@@ -12,13 +13,14 @@ export function useClients() {
   const fetchClients = async () => {
     setLoading(true);
     try {
+      const token = getToken();
       const response = await fetch(
         "https://facturacion-servicios.onrender.com/api/client",
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",          },
+            Authorization: `Bearer ${token}`}
         }
       );
 
@@ -37,13 +39,16 @@ export function useClients() {
 
   const addClient = async (client) => {
     try {
+      const token = getToken();
+
       const response = await fetch(
         "https://facturacion-servicios.onrender.com/api/client",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",  
+            Authorization: 
+            `Bearer ${token}`,
           },
           body: JSON.stringify(client),
         }
@@ -59,13 +64,16 @@ export function useClients() {
 
   const editClient = async (client) => {
     try {
+      const token = getToken();
+
       const response = await fetch(
         `https://facturacion-servicios.onrender.com/api/client/${client.id}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",  
+            Authorization: 
+            `Bearer ${token}`,
           },
           body: JSON.stringify(client),
         }
@@ -83,13 +91,16 @@ export function useClients() {
   const deleteClient = async (id) => {
     try {
       console.log(id);
+      const token = getToken();
+
       const response = await fetch(
         `https://facturacion-servicios.onrender.com/api/client/${id}`,
         {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",  
+            Authorization: 
+            `Bearer ${token}`
           },
         }
       );

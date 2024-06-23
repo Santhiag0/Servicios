@@ -1,7 +1,9 @@
+"use client";
+
 import React from 'react';
 import Navbar from '@/Components/navbar';
 import Facturas from '@/Components/Facturas';
-
+import withAuth from '@/Components/withAuth';
 const Page = () => {
     return (
         
@@ -12,4 +14,4 @@ const Page = () => {
     );
 };
 
-export default Page;
+export default withAuth(Page);

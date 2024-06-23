@@ -25,7 +25,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e) => { 
     e.preventDefault();
 
     try {
@@ -116,6 +116,6 @@ const LoginPage = () => {
       </div>
     </div>
   );
-};
+}; 
 
 export default LoginPage;

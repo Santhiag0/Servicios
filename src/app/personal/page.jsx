@@ -1,15 +1,24 @@
 "use client";
 
 import React, { useEffect } from "react";
+import { useRouter } from 'next/navigation';
 import Navbar from "../../Components/navbar";
 import { useUsers } from "../../hooks/useUsers";
 import { Datatable } from "../../Components/specific/users/Datatable";
+import withAuth from '@/Components/withAuth';
+import { getRole } from '@/utils/auth';
 
 const Page = () => {
   const { users, loading, fetchUsers } = useUsers();
+  const router = useRouter();
 
   useEffect(() => {
     fetchUsers();
+    const role = getRole();
+    if (role !== 'admin') {
+      // Redirect to the main page if the user is not an admin
+      router.push('/main');
+    }
   }, []);
 
   return (
@@ -26,4 +35,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

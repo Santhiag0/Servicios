@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import useInvoiceManager from '../hooks/useInvoiceManager';
 import PayButton from './PayButton';
+import { getRole } from '../utils/auth';
 
 const Invoice = ({ addedProducts, onRemoveProduct }) => {
     const { client, loading, error, fetchClientByDni } = useInvoiceManager();
@@ -23,6 +24,8 @@ const Invoice = ({ addedProducts, onRemoveProduct }) => {
             setDni('');
         }
     };
+
+    const role = getRole();
 
     const handleValidateClient = () => {
         if (dni) {
@@ -121,6 +124,7 @@ const Invoice = ({ addedProducts, onRemoveProduct }) => {
                         value={ivaPercentage} 
                         onChange={(e) => setIvaPercentage(e.target.value)} 
                         className="p-1 border border-gray-300 rounded-md w-16 text-center text-gray-800"
+                        disabled={role !== 'admin'} 
                     />
                 </div>
                 <div className="flex justify-between text-gray-800">
