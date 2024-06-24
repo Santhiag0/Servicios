@@ -163,6 +163,8 @@ export const Datatable = ({ clients, fetchClients }) => {
         );
       },
     },
+    ...(getRole() === 'admin'
+    ? [
     {
       field: "edit",
       headerName: "Editar",
@@ -179,7 +181,8 @@ export const Datatable = ({ clients, fetchClients }) => {
           </IconButton>
         );
       },
-    },
+    }, ]
+    : []),
     ...(getRole() === 'admin'
     ? [
         {

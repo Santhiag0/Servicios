@@ -34,11 +34,11 @@ const EditCategory = () => {
 
     return (
         <div className='text-black'>
-            <button onClick={() => setEditModalOpen(true)} className="p-2 bg-yellow-500 text-white rounded">Edit Category</button>
+            <button onClick={() => setEditModalOpen(true)} className="p-2 bg-yellow-500 text-white rounded">Editar Categoria</button>
             {editModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-                        <h2 className="text-xl font-bold mb-4">Edit Category</h2>
+                        <h2 className="text-xl font-bold mb-4">Editar Categoria</h2>
                         <select
                             className="mb-2 p-2 border rounded w-full"
                             onChange={handleCategoryChange}

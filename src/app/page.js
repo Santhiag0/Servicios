@@ -73,8 +73,8 @@ const LoginPage = () => {
       <div className="bg-[#020201] flex rounded-lg shadow-lg w-full max-w-4xl">
         <div className="w-1/2">
           <img 
-            src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/6a0dc0d2-5fd6-4d7b-ac2a-08a7b2f81bae/dgrf1he-392b27ab-9a37-4ad4-a82b-6351167aeeb3.png/v1/fill/w_764,h_898/bob_cholo_by_ikouzhy_dgrf1he-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9ODk4IiwicGF0aCI6IlwvZlwvNmEwZGMwZDItNWZkNi00ZDdiLWFjMmEtMDhhN2IyZjgxYmFlXC9kZ3JmMWhlLTM5MmIyN2FiLTlhMzctNGFkNC1hODJiLTYzNTExNjdhZWViMy5wbmciLCJ3aWR0aCI6Ijw9NzY0In1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.ulbuIZ5nF2-gBZRnQwn5pZ5-NYP9dIXihoPKZ43xUE4" 
-            alt="Imagen" 
+            src=
+            "https://www.hiperestrategia.com/hs-fs/hubfs/Estrategia%20de%20Ventas.jpg?width=5157&height=3438&name=Estrategia%20de%20Ventas.jpg"            alt="Imagen" 
             className="object-cover w-full h-full rounded-l-lg"
           />
         </div>

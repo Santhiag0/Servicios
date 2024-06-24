@@ -92,12 +92,16 @@ const Categories = () => {
                             ))}
                         </select>
                     </div>
+
+                    {role === 'admin' && (
                     <div className="flex space-x-4">
-                        <button onClick={handleAddProduct} className="mb-4 p-2 bg-blue-500 text-white rounded">Add Product</button>
-                        <button onClick={handleAddCategory} className="mb-4 p-2 bg-green-500 text-white rounded">Add Category</button>
+                        <button onClick={handleAddProduct} className="mb-4 p-2 bg-blue-500 text-white rounded">Agregar Producto</button>
+                        <button onClick={handleAddCategory} className="mb-4 p-2 bg-green-500 text-white rounded">Agregar Categoria</button>
                         <DeleteCategoryButton categories={categories} onDelete={handleDeleteCategory} />
                         <EditCategory />
                     </div>
+                    )}
+
                     {loading ? (
                         <p className="text-gray-800 dark:text-gray-200">Loading products...</p>
                     ) : filteredProducts.length ? (
@@ -111,7 +115,9 @@ const Categories = () => {
                                         <strong className="block text-lg font-medium text-gray-800 dark:text-black ">{product.name.toUpperCase()}</strong>
                                         <p className="mt-2 font-medium text-black dark:text-black">Precio: ${product.price}</p>
                                         <p className="mt-2 text-black dark:text-black">Cantidad: {product.stock}</p>
+                                        {role === 'admin' && (
                                         <button onClick={() => handleEditProduct(product)} className="mt-2 p-2 bg-yellow-500 text-white rounded">Edit</button>
+                                        )}
                                         {role === 'admin' && (
                                             <button onClick={() => deleteProduct(product.id)} className="mt-2 ml-2 p-2 bg-red-500 text-white rounded">Delete</button>
                                         )}
