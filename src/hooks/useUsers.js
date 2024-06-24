@@ -14,7 +14,6 @@ export const useUsers = () => {
 
   const fetchUsers = async () => {
     setLoading(true);
-
     try {
       const response = await fetch(
         "https://facturacion-servicios.onrender.com/auth",
@@ -22,7 +21,9 @@ export const useUsers = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",            
+
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU4ODE3OSwiZXhwIjoxNzE4NjI0MTc5fQ.9_jZHAk7Xjfo3CMZusWlwkLFlDEswPmDO9HWlwyI_GA",
           },
         }
       );
@@ -36,6 +37,7 @@ export const useUsers = () => {
       }
     } catch (error) {
       console.error(error);
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -57,7 +59,8 @@ export const useUsers = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",         
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU4ODE3OSwiZXhwIjoxNzE4NjI0MTc5fQ.9_jZHAk7Xjfo3CMZusWlwkLFlDEswPmDO9HWlwyI_GA",
           },
           body: JSON.stringify(userBody),
         }
@@ -70,6 +73,7 @@ export const useUsers = () => {
       }
     } catch (error) {
       console.error(error);
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -79,23 +83,29 @@ export const useUsers = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("../data/users.json", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",       
-        },
-        body: JSON.stringify(user),
-      });
+      const response = await fetch(
+        `https://facturacion-servicios.onrender.com/auth/${user.username}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU4ODE3OSwiZXhwIjoxNzE4NjI0MTc5fQ.9_jZHAk7Xjfo3CMZusWlwkLFlDEswPmDO9HWlwyI_GA",
+          },
+          body: JSON.stringify(user),
+        }
+      );
+
 
       if (response.ok) {
-        fetchUsers();
+        await fetchUsers();
         console.log("Usuario editado correctamente");
       } else {
         throw new Error("Error al editar el usuario");
       }
     } catch (error) {
       console.error(error);
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -111,7 +121,8 @@ export const useUsers = () => {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODYzNjYwOCwiZXhwIjoxNzE4NjcyNjA4fQ.0ptjMx1OMvmNMJuJD-ns1zb8HQYQSkRZrzPnjddSchY",         
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU4ODE3OSwiZXhwIjoxNzE4NjI0MTc5fQ.9_jZHAk7Xjfo3CMZusWlwkLFlDEswPmDO9HWlwyI_GA",
           },
         }
       );
@@ -123,6 +134,7 @@ export const useUsers = () => {
       }
     } catch (error) {
       console.error(error);
+      throw error;
     } finally {
       setLoading(false);
     }

@@ -11,6 +11,13 @@ import CustomModal from "./StudentsModal";
 import { useUsers } from "../../../hooks/useUsers";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const useStyles = makeStyles({
   dataGrid: {
@@ -53,31 +60,63 @@ export const Datatable = ({ users, fetchUsers }) => {
   const rows = users.map(
     (user) => new FormattedUser(user.id, user.username, user.role, user.status)
   );
+
   const [open, setOpen] = React.useState(false);
   const [selectedUser, setSelectedUser] = React.useState(null);
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+  const [snackbarMessage, setSnackbarMessage] = React.useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = React.useState("success");
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [userToDelete, setUserToDelete] = React.useState(null);
 
   const handleOpen = (user) => {
     setSelectedUser(user);
     setOpen(true);
   };
+
   const handleClose = () => {
     setSelectedUser(null);
     setOpen(false);
   };
 
-  const handleSubmit = async (user) => {
-    if (selectedUser) {
-      await editUser(user);
-    } else {
-      await addUser(user);
-    }
-    fetchUsers(); // Fetch the updated list of users
-    handleClose();
+  const handleDelete = (username) => {
+    setUserToDelete(username);
+    setDialogOpen(true);
   };
 
-  const handleDelete = async (username) => {
-    await deleteUser(username);
-    fetchUsers(); // Refresh the users list after deletion
+  const confirmDelete = async () => {
+    try {
+      await deleteUser(userToDelete);
+      setSnackbarMessage("Usuario eliminado con éxito");
+      setSnackbarSeverity("success");
+    } catch (error) {
+      setSnackbarMessage("Error eliminando usuario");
+      setSnackbarSeverity("error");
+    } finally {
+      setSnackbarOpen(true);
+      setDialogOpen(false);
+      setTimeout(fetchUsers, 5000); 
+    }
+  };
+
+  const handleSubmit = async (user) => {
+    try {
+      if (selectedUser) {
+        await editUser(user);
+        setSnackbarMessage("Usuario editado con éxito");
+      } else {
+        await addUser(user);
+        setSnackbarMessage("Usuario creado con éxito");
+      }
+      setSnackbarSeverity("success");
+    } catch (error) {
+      setSnackbarMessage("Error guardando usuario");
+      setSnackbarSeverity("error");
+    } finally {
+      setSnackbarOpen(true);
+      handleClose();
+      setTimeout(fetchUsers, 5000); 
+    }
   };
 
   const columns = [
@@ -109,25 +148,23 @@ export const Datatable = ({ users, fetchUsers }) => {
         );
       },
     },
-    // {
-    //   field: "edit",
-    //   headerName: "Editar",
-    //   flex: 1,
-    //   renderCell: (params) => {
-    //     const user = rows.find((row) => row.id === params.id);
-    //     const userToEdit = users.find((u) => u.id === user.id);
-    //     return (
-    //       <>
-    //         <IconButton
-    //           aria-label="edit"
-    //           onClick={() => handleOpen(userToEdit)}
-    //         >
-    //           <BorderColorIcon color="info" />
-    //         </IconButton>
-    //       </>
-    //     );
-    //   },
-    // },
+    {
+      field: "edit",
+      headerName: "Editar",
+      flex: 1,
+      renderCell: (params) => {
+        const user = rows.find((row) => row.id === params.id);
+        const userToEdit = users.find((u) => u.id === user.id);
+        return (
+          <IconButton
+            aria-label="edit"
+            onClick={() => handleOpen(userToEdit)}
+          >
+            <BorderColorIcon color="info" />
+          </IconButton>
+        );
+      },
+    },
     {
       field: "delete",
       headerName: "Eliminar",
@@ -179,6 +216,38 @@ export const Datatable = ({ users, fetchUsers }) => {
         onSubmit={handleSubmit}
         currentUser={selectedUser}
       />
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <MuiAlert
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
+      <Dialog
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+      >
+        <DialogTitle>Confirmar Eliminación</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            ¿Está seguro de que desea eliminar este usuario?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDialogOpen(false)} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={confirmDelete} color="primary" autoFocus>
+            Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
