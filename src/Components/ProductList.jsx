@@ -8,6 +8,7 @@ const ProductList = () => {
     const { categories, products, loading } = useProductCategoryManager();
     const [counters, setCounters] = useState({});
     const [addedProducts, setAddedProducts] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const initialCounters = products.reduce((acc, product) => {
@@ -57,14 +58,31 @@ const ProductList = () => {
         setAddedProducts((prevProducts) => prevProducts.filter(p => p.id !== id));
     };
 
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const filteredProducts = products.filter(product => 
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <div className='bg-gray-100 dark:bg-gray-800 flex'>
             <div className="flex flex-col items-center p-5 font-sans w-3/5">
                 <div className="w-full max-w-2xl">
                     <h1 className="text-center text-2xl font-bold text-gray-800 dark:text-gray-200">LISTA DE PRODUCTOS</h1>
-                    {products.length ? (
+                    <div className="my-4">
+                        <input
+                            type="text"
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                            placeholder="Buscar productos..."
+                            className="w-full p-2 border border-gray-300 rounded-md text-black"
+                        />
+                    </div>
+                    {filteredProducts.length ? (
                         <ul className="list-none p-0">
-                            {products.map((product) => (
+                            {filteredProducts.map((product) => (
                                 <li key={product.id} className="flex items-center bg-white dark:bg-white border border-gray-300 dark:border-gray-600 rounded-lg my-2 p-5 shadow-md dark:shadow-lg">
                                     <div className="flex-shrink-0 w-24 h-24 flex items-center justify-center mr-5">
                                         <img src={product.imagen} alt={product.name} className="w-full h-full object-contain" />
@@ -101,7 +119,7 @@ const ProductList = () => {
                             ))}
                         </ul>
                     ) : (
-                        <p className="text-gray-800 dark:text-gray-200">Loading products...</p>
+                        <p className="text-gray-800 dark:text-gray-200">No se encontraron productos...</p>
                     )}
                 </div>
             </div>
