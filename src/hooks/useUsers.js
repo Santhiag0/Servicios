@@ -21,6 +21,7 @@ export const useUsers = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+
             Authorization:
               "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU4ODE3OSwiZXhwIjoxNzE4NjI0MTc5fQ.9_jZHAk7Xjfo3CMZusWlwkLFlDEswPmDO9HWlwyI_GA",
           },
@@ -94,6 +95,7 @@ export const useUsers = () => {
           body: JSON.stringify(user),
         }
       );
+
 
       if (response.ok) {
         await fetchUsers();

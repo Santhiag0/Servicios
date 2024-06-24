@@ -17,20 +17,23 @@ const ProductList = () => {
         setCounters(initialCounters);
     }, [products]);
 
-    const increaseCounter = (id) => {
+    const handleQuantityChange = (id, quantity) => {
+        const product = products.find(p => p.id === id);
+        const validQuantity = Math.min(Math.max(quantity, 0), product.stock);
+
         setCounters((prevCounters) => {
-            const newCounters = { ...prevCounters, [id]: prevCounters[id] + 1 };
+            const newCounters = { ...prevCounters, [id]: validQuantity };
             updateAddedProducts(id, newCounters[id]);
             return newCounters;
         });
     };
 
+    const increaseCounter = (id) => {
+        handleQuantityChange(id, counters[id] + 1);
+    };
+
     const decreaseCounter = (id) => {
-        setCounters((prevCounters) => {
-            const newCounters = { ...prevCounters, [id]: Math.max(prevCounters[id] - 1, 0) };
-            updateAddedProducts(id, newCounters[id]);
-            return newCounters;
-        });
+        handleQuantityChange(id, counters[id] - 1);
     };
 
     const updateAddedProducts = (id, quantity) => {
@@ -64,11 +67,12 @@ const ProductList = () => {
                             {products.map((product) => (
                                 <li key={product.id} className="flex items-center bg-white dark:bg-white border border-gray-300 dark:border-gray-600 rounded-lg my-2 p-5 shadow-md dark:shadow-lg">
                                     <div className="flex-shrink-0 w-24 h-24 flex items-center justify-center mr-5">
-                                    <img src={product.imagen} alt={product.name} className="w-full h-full object-contain" />
+                                        <img src={product.imagen} alt={product.name} className="w-full h-full object-contain" />
                                     </div>
                                     <div className="flex-grow text-left">
                                         <strong className="block text-lg font-medium text-gray-800 ">{product.name}</strong>
                                         <p className="mt-2 text-gray-600">Precio: ${product.price}</p>
+                                        <p className="mt-2 text-gray-600">Stock: {product.stock}</p>
                                     </div>
                                     <div className="flex items-center mt-4">
                                         <button
@@ -77,10 +81,18 @@ const ProductList = () => {
                                         >
                                             -
                                         </button>
-                                        <span className="px-4 py-2 text-gray-800">{counters[product.id]}</span>
+                                        <input
+                                            type="number"
+                                            value={counters[product.id]}
+                                            onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value, 10))}
+                                            className="mx-2 w-16 p-2 text-center border rounded-md text-black"
+                                            min="0"
+                                            max={product.stock}
+                                        />
                                         <button
                                             onClick={() => increaseCounter(product.id)}
                                             className="px-4 py-2 bg-green-500 text-white rounded-md focus:outline-none"
+                                            disabled={counters[product.id] >= product.stock}
                                         >
                                             +
                                         </button>

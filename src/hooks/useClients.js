@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 
 export function useClients() {
@@ -20,6 +21,7 @@ export function useClients() {
             Authorization:
               "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU4ODE3OSwiZXhwIjoxNzE4NjI0MTc5fQ.9_jZHAk7Xjfo3CMZusWlwkLFlDEswPmDO9HWlwyI_GA",
           },
+
         }
       );
 
@@ -47,8 +49,10 @@ export function useClients() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+
             Authorization:
               "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU4ODE3OSwiZXhwIjoxNzE4NjI0MTc5fQ.9_jZHAk7Xjfo3CMZusWlwkLFlDEswPmDO9HWlwyI_GA",
+
           },
           body: JSON.stringify(client),
         }
@@ -78,6 +82,7 @@ export function useClients() {
             "Content-Type": "application/json",
             Authorization:
               "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU4ODE3OSwiZXhwIjoxNzE4NjI0MTc5fQ.9_jZHAk7Xjfo3CMZusWlwkLFlDEswPmDO9HWlwyI_GA",
+
           },
           body: JSON.stringify(client),
         }
@@ -106,8 +111,10 @@ export function useClients() {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+
             Authorization:
               "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU4ODE3OSwiZXhwIjoxNzE4NjI0MTc5fQ.9_jZHAk7Xjfo3CMZusWlwkLFlDEswPmDO9HWlwyI_GA",
+
           },
         }
       );
