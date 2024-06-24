@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Select, MenuItem, InputLabel, FormControl } from "@mui/material";
+import { Select, MenuItem, InputLabel, FormControl, FormHelperText } from "@mui/material";
 
 const CustomModal = ({ open, handleClose, title, onSubmit, currentUser }) => {
   const [user, setUser] = useState({
@@ -15,6 +15,8 @@ const CustomModal = ({ open, handleClose, title, onSubmit, currentUser }) => {
     role: "",
     status: true,
   });
+
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (currentUser) {
@@ -30,8 +32,23 @@ const CustomModal = ({ open, handleClose, title, onSubmit, currentUser }) => {
     }));
   };
 
+  const validate = () => {
+    const newErrors = {};
+    if (!user.username) newErrors.username = "El nombre de usuario es requerido";
+    if (!user.password && !currentUser) newErrors.password = "La contraseña es requerida";
+    if (!user.role) newErrors.role = "El rol es requerido";
+    return newErrors;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    const newErrors = validate();
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     onSubmit(user);
     handleClose();
   };
@@ -59,6 +76,8 @@ const CustomModal = ({ open, handleClose, title, onSubmit, currentUser }) => {
             value={user.username}
             onChange={handleChange}
             fullWidth
+            error={!!errors.username}
+            helperText={errors.username}
             InputLabelProps={{
               className: "text-white",
             }}
@@ -74,6 +93,8 @@ const CustomModal = ({ open, handleClose, title, onSubmit, currentUser }) => {
               value={user.password}
               onChange={handleChange}
               fullWidth
+              error={!!errors.password}
+              helperText={errors.password}
               InputLabelProps={{
                 className: "text-white",
               }}
@@ -82,12 +103,12 @@ const CustomModal = ({ open, handleClose, title, onSubmit, currentUser }) => {
               }}
             />
           )}
-          <FormControl fullWidth>
+          <FormControl fullWidth error={!!errors.role}>
             <InputLabel className="text-white">Rol</InputLabel>
             <Select
               label="Rol"
               name="role"
-              value={user.role.id}
+              value={user.role}
               onChange={handleChange}
               fullWidth
               className="bg-white"
@@ -95,6 +116,7 @@ const CustomModal = ({ open, handleClose, title, onSubmit, currentUser }) => {
               <MenuItem value={1}>Cajero</MenuItem>
               <MenuItem value={2}>Administrador</MenuItem>
             </Select>
+            {errors.role && <FormHelperText>{errors.role}</FormHelperText>}
           </FormControl>
           {currentUser && (
             <div className="flex items-center space-x-2">

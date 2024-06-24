@@ -17,6 +17,7 @@ const useProductCategoryManager = () => {
                 "Content-Type": "application/json",
                 Authorization: 
                 `Bearer ${token}`,
+
               },
         });
 
@@ -51,6 +52,7 @@ const useProductCategoryManager = () => {
                 "Content-Type": "application/json",
                 Authorization: 
                 `Bearer ${token}`,},
+
             body: JSON.stringify(category),
         });
 
@@ -77,6 +79,7 @@ const editCategory = async (id, updatedCategory) => {
               "Content-Type": "application/json",
               Authorization:
               `Bearer ${token}`,},
+
           body: JSON.stringify(updatedCategory),
       });
 
@@ -103,6 +106,7 @@ const editCategory = async (id, updatedCategory) => {
           "Content-Type": "application/json",
           Authorization: 
           `Bearer ${token}`,}
+
       });
 
       if (response.ok) {
@@ -128,6 +132,7 @@ const editCategory = async (id, updatedCategory) => {
           "Content-Type": "application/json",
           Authorization: 
           `Bearer ${token}`,},
+
         body: JSON.stringify(product),
       });
 
@@ -178,6 +183,7 @@ const editCategory = async (id, updatedCategory) => {
           "Content-Type": "application/json",
           Authorization: 
           `Bearer ${token}`,}
+
       });
 
       if (response.ok) {

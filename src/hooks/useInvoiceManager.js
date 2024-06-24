@@ -21,6 +21,7 @@ const useInvoiceManager = () => {
                     Authorization: 
                     `Bearer ${token}`,
 
+
                 }
             });
             if (!response.ok) {
@@ -50,6 +51,7 @@ const useInvoiceManager = () => {
                     'Content-Type': 'application/json',
                     Authorization:
                     `Bearer ${token}`,  
+
                 }
             });
             if (!response.ok) {

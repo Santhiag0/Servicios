@@ -16,6 +16,7 @@ const useSalesManager = () => {
                     'Content-Type': 'application/json',
                     Authorization:
                     `Bearer ${token}`,},
+
                 body: JSON.stringify(saleData),
             });
 
@@ -42,6 +43,7 @@ const useSalesManager = () => {
                         'Content-Type': 'application/json',
                         Authorization: 
                         `Bearer ${token}`,
+
                     },
                 });
 
@@ -57,6 +59,7 @@ const useSalesManager = () => {
                     'Content-Type': 'application/json',
                     Authorization:
                     `Bearer ${token}`,
+
                 },
                 body: JSON.stringify({ stock: newStock }),
             });

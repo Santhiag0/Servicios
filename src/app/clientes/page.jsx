@@ -18,7 +18,11 @@ const PageClient = () => {
     <div>
       <Navbar />
       <div className="w-3/4 mx-auto mt-4">
-        {loading ? <p>Cargando...</p> : <Datatable clients={clients} />}
+        {loading ? (
+          <p>Cargando...</p>
+        ) : (
+          <Datatable clients={clients} fetchClients={fetchClients} />
+        )}
       </div>
     </div>
   );

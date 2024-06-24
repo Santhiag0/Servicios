@@ -16,7 +16,6 @@ export const useUsers = () => {
 
   const fetchUsers = async () => {
     setLoading(true);
-
     try {
       const token = getToken();
 
@@ -28,6 +27,7 @@ export const useUsers = () => {
             "Content-Type": "application/json",
             Authorization: 
             `Bearer ${token}`,
+
           },
         }
       );
@@ -41,6 +41,7 @@ export const useUsers = () => {
       }
     } catch (error) {
       console.error(error);
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -65,6 +66,7 @@ export const useUsers = () => {
             "Content-Type": "application/json",
             Authorization: 
             `Bearer ${token}`
+
           },
           body: JSON.stringify(userBody),
         }
@@ -77,6 +79,7 @@ export const useUsers = () => {
       }
     } catch (error) {
       console.error(error);
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -97,14 +100,16 @@ export const useUsers = () => {
         body: JSON.stringify(user),
       });
 
+
       if (response.ok) {
-        fetchUsers();
+        await fetchUsers();
         console.log("Usuario editado correctamente");
       } else {
         throw new Error("Error al editar el usuario");
       }
     } catch (error) {
       console.error(error);
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -124,6 +129,7 @@ export const useUsers = () => {
             "Content-Type": "application/json",
             Authorization: 
             `Bearer ${token}`,
+
           },
         }
       );
@@ -135,6 +141,7 @@ export const useUsers = () => {
       }
     } catch (error) {
       console.error(error);
+      throw error;
     } finally {
       setLoading(false);
     }

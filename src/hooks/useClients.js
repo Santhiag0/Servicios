@@ -21,23 +21,27 @@ export function useClients() {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`}
+
         }
       );
 
       if (response.ok) {
         const jsonResponse = await response.json();
-        setClients(jsonResponse);
+        const formtedClients = jsonResponse;
+        setClients(formtedClients);
       } else {
-        console.error("Error fetching clients data");
+        throw new Error("Error fetching clients data");
       }
     } catch (error) {
-      console.error("Error fetching clients data", error);
+      console.error(error);
+      throw error;
     } finally {
       setLoading(false);
     }
   };
 
   const addClient = async (client) => {
+    setLoading(true);
     try {
       const token = getToken();
 
@@ -47,22 +51,30 @@ export function useClients() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+
             Authorization: 
             `Bearer ${token}`,
+
           },
           body: JSON.stringify(client),
         }
       );
 
       if (response.ok) {
-        fetchClients();
+        await fetchClients();
+      } else {
+        throw new Error("Error al agregar un cliente");
       }
     } catch (error) {
-      console.error("Error creating client", error);
+      console.error(error);
+      throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
   const editClient = async (client) => {
+    setLoading(true);
     try {
       const token = getToken();
 
@@ -74,6 +86,7 @@ export function useClients() {
             "Content-Type": "application/json",
             Authorization: 
             `Bearer ${token}`,
+
           },
           body: JSON.stringify(client),
         }
@@ -81,14 +94,20 @@ export function useClients() {
 
       if (response.ok) {
         await fetchClients();
-        await window.location.reload()
+        console.log("Cliente editado correctamente");
+      } else {
+        throw new Error("Error al editar el cliente");
       }
     } catch (error) {
-      console.error("Error editing client", error);
+      console.error (error);
+      throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
   const deleteClient = async (id) => {
+    setLoading(true);
     try {
       console.log(id);
       const token = getToken();
@@ -106,10 +125,15 @@ export function useClients() {
       );
 
       if (response.ok) {
-        fetchClients();
+        await fetchClients();
+      } else {
+        throw new Error("Error al eliminar el cliente");
       }
     } catch (error) {
-      console.error("Error deleting client", error);
+      console.error(error);
+      throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
