@@ -148,23 +148,7 @@ export const Datatable = ({ users, fetchUsers }) => {
         );
       },
     },
-    {
-      field: "edit",
-      headerName: "Editar",
-      flex: 1,
-      renderCell: (params) => {
-        const user = rows.find((row) => row.id === params.id);
-        const userToEdit = users.find((u) => u.id === user.id);
-        return (
-          <IconButton
-            aria-label="edit"
-            onClick={() => handleOpen(userToEdit)}
-          >
-            <BorderColorIcon color="info" />
-          </IconButton>
-        );
-      },
-    },
+    
     {
       field: "delete",
       headerName: "Eliminar",

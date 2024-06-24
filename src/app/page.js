@@ -32,7 +32,7 @@ const LoginPage = () => {
       const response = await fetch(
         'https://facturacion-servicios.onrender.com/auth/login', 
         {
-          method: 'POST',
+            method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },

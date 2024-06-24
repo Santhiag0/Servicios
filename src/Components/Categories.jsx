@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from 'react';
 import useProductCategoryManager from '../hooks/useProductCategoryManager';
@@ -7,6 +7,7 @@ import { getRole } from '../utils/auth';
 import ProductModal from './ProductModal';
 import NewCategoryModal from './NewCategoryModal';
 import DeleteCategoryButton from './DeleteCategoryButton';
+import IVAButton from './IVAButton';
 
 const Categories = () => {
     const { categories, products, loading, addCategory, editCategory, deleteCategory, addProduct, editProduct, deleteProduct } = useProductCategoryManager();
@@ -99,6 +100,7 @@ const Categories = () => {
                         <button onClick={handleAddCategory} className="mb-4 p-2 bg-green-500 text-white rounded">Agregar Categoria</button>
                         <DeleteCategoryButton categories={categories} onDelete={handleDeleteCategory} />
                         <EditCategory />
+                        <IVAButton />
                     </div>
                     )}
 
