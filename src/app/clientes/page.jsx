@@ -4,6 +4,8 @@ import React, { useEffect } from "react";
 import Navbar from "../../Components/navbar";
 import { useClients } from "../../hooks/useClients";
 import { Datatable } from "../../Components/specific/clients/Datatable";
+import withAuth from '@/Components/withAuth';
+
 
 const PageClient = () => {
   const { clients, loading, fetchClients } = useClients();
@@ -26,4 +28,4 @@ const PageClient = () => {
   );
 };
 
-export default PageClient;
+export default withAuth(PageClient);

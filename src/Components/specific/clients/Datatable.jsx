@@ -10,6 +10,7 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import ClientModal from "./ClientModal";
 import { useClients } from "../../../hooks/useClients";
 import Button from "@mui/material/Button";
+import { getRole } from '../../../utils/auth';
 import AddIcon from "@mui/icons-material/Add";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
@@ -179,22 +180,23 @@ export const Datatable = ({ clients, fetchClients }) => {
         );
       },
     },
-    {
-      field: "delete",
-      headerName: "Eliminar",
-      flex: 1,
-      renderCell: (params) => {
-        const client = rows.find((row) => row.id === params.id);
-        return (
-          <IconButton
-            aria-label="delete"
-            onClick={() => handleDelete(client.id)}
-          >
-            <DeleteIcon color="warning" />
-          </IconButton>
-        );
-      },
-    },
+    ...(getRole() === 'admin'
+    ? [
+        {
+          field: "delete",
+          headerName: "Eliminar",
+          flex: 1,
+          renderCell: (params) => (
+            <IconButton
+              aria-label="delete"
+              onClick={() => handleDelete(params.id)}
+            >
+              <DeleteIcon color="warning" />
+            </IconButton>
+          ),
+        },
+      ]
+    : []),
   ];
 
   return (

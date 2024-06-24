@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { getToken } from '@/utils/auth';
 
 const useProductCategoryManager = () => {
   const [categories, setCategories] = useState([]);
@@ -8,11 +9,15 @@ const useProductCategoryManager = () => {
   const fetchCategories = async () => {
     setLoading(true);
     try {
+      const token = getToken();
+
         const response = await fetch("https://facturacion-servicios.onrender.com/api/category", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxOTE4MDA5MSwiZXhwIjoxNzE5MjE2MDkxfQ.q15jKQUikeuqATseVkGYLb3vkflwIuWT3m_0sXdJbo0",                
+                Authorization: 
+                `Bearer ${token}`,
+
               },
         });
 
@@ -40,11 +45,14 @@ const useProductCategoryManager = () => {
   const addCategory = async (category) => {
     setLoading(true);
     try {
+      const token = getToken();
         const response = await fetch("https://facturacion-servicios.onrender.com/api/category", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxOTE4MDA5MSwiZXhwIjoxNzE5MjE2MDkxfQ.q15jKQUikeuqATseVkGYLb3vkflwIuWT3m_0sXdJbo0",            },
+                Authorization: 
+                `Bearer ${token}`,},
+
             body: JSON.stringify(category),
         });
 
@@ -64,11 +72,14 @@ const useProductCategoryManager = () => {
 const editCategory = async (id, updatedCategory) => {
   setLoading(true);
   try {
+    const token = getToken();
       const response = await fetch(`https://facturacion-servicios.onrender.com/api/category/${id}`, {
           method: "PUT",
           headers: {
               "Content-Type": "application/json",
-              Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxOTE4MDA5MSwiZXhwIjoxNzE5MjE2MDkxfQ.q15jKQUikeuqATseVkGYLb3vkflwIuWT3m_0sXdJbo0",          },
+              Authorization:
+              `Bearer ${token}`,},
+
           body: JSON.stringify(updatedCategory),
       });
 
@@ -88,11 +99,14 @@ const editCategory = async (id, updatedCategory) => {
   const deleteCategory = async (id) => {
     setLoading(true);
     try {
+      const token = getToken();
       const response = await fetch(`https://facturacion-servicios.onrender.com/api/category/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxOTE4MDA5MSwiZXhwIjoxNzE5MjE2MDkxfQ.q15jKQUikeuqATseVkGYLb3vkflwIuWT3m_0sXdJbo0",        },
+          Authorization: 
+          `Bearer ${token}`,}
+
       });
 
       if (response.ok) {
@@ -110,11 +124,15 @@ const editCategory = async (id, updatedCategory) => {
   const addProduct = async (product) => {
     setLoading(true);
     try {
+      const token = getToken();
+
       const response = await fetch("https://facturacion-servicios.onrender.com/api/productos", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxOTE4MDA5MSwiZXhwIjoxNzE5MjE2MDkxfQ.q15jKQUikeuqATseVkGYLb3vkflwIuWT3m_0sXdJbo0",        },
+          Authorization: 
+          `Bearer ${token}`,},
+
         body: JSON.stringify(product),
       });
 
@@ -133,11 +151,13 @@ const editCategory = async (id, updatedCategory) => {
   const editProduct = async (id, updatedProduct) => {
     setLoading(true);
     try {
+      const token = getToken();
       const response = await fetch(`https://facturacion-servicios.onrender.com/api/productos/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxOTE4MDA5MSwiZXhwIjoxNzE5MjE2MDkxfQ.q15jKQUikeuqATseVkGYLb3vkflwIuWT3m_0sXdJbo0",        },
+          Authorization: 
+          `Bearer ${token}`,},
         body: JSON.stringify(updatedProduct),
       });
 
@@ -156,11 +176,14 @@ const editCategory = async (id, updatedCategory) => {
   const deleteProduct = async (id) => {
     setLoading(true);
     try {
+      const token = getToken();
       const response = await fetch(`https://facturacion-servicios.onrender.com/api/productos/activation/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxOTE4MDA5MSwiZXhwIjoxNzE5MjE2MDkxfQ.q15jKQUikeuqATseVkGYLb3vkflwIuWT3m_0sXdJbo0",        },
+          Authorization: 
+          `Bearer ${token}`,}
+
       });
 
       if (response.ok) {

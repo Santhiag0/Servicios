@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { getToken } from '@/utils/auth';
+
 
 const useInvoiceManager = () => {
     const [client, setClient] = useState(null);
@@ -10,11 +12,15 @@ const useInvoiceManager = () => {
         setLoading(true);
         setError(null);
         try {
+       
+            const token = getToken();
             const response = await fetch(`https://facturacion-servicios.onrender.com/api/client/dni/${dni}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxOTE4MDA5MSwiZXhwIjoxNzE5MjE2MDkxfQ.q15jKQUikeuqATseVkGYLb3vkflwIuWT3m_0sXdJbo0",
+                    Authorization: 
+                    `Bearer ${token}`,
+
 
                 }
             });
@@ -38,11 +44,14 @@ const useInvoiceManager = () => {
         setLoading(true);
         setError(null);
         try {
+            const token = getToken();
             const response = await fetch('https://facturacion-servicios.onrender.com/api/sales', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxOTE4MDA5MSwiZXhwIjoxNzE5MjE2MDkxfQ.q15jKQUikeuqATseVkGYLb3vkflwIuWT3m_0sXdJbo0",
+                    Authorization:
+                    `Bearer ${token}`,  
+
                 }
             });
             if (!response.ok) {
