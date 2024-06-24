@@ -14,7 +14,6 @@ export const useUsers = () => {
 
   const fetchUsers = async () => {
     setLoading(true);
-
     try {
       const response = await fetch(
         "https://facturacion-servicios.onrender.com/auth",
@@ -23,6 +22,7 @@ export const useUsers = () => {
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxOTE4MDA5MSwiZXhwIjoxNzE5MjE2MDkxfQ.q15jKQUikeuqATseVkGYLb3vkflwIuWT3m_0sXdJbo0",            
+
           },
         }
       );
@@ -36,6 +36,7 @@ export const useUsers = () => {
       }
     } catch (error) {
       console.error(error);
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -70,6 +71,7 @@ export const useUsers = () => {
       }
     } catch (error) {
       console.error(error);
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -79,23 +81,30 @@ export const useUsers = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("../data/users.json", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxOTE4MDA5MSwiZXhwIjoxNzE5MjE2MDkxfQ.q15jKQUikeuqATseVkGYLb3vkflwIuWT3m_0sXdJbo0",       
-        },
-        body: JSON.stringify(user),
-      });
+
+      const response = await fetch(
+        `https://facturacion-servicios.onrender.com/auth/${user.username}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxODU4ODE3OSwiZXhwIjoxNzE4NjI0MTc5fQ.9_jZHAk7Xjfo3CMZusWlwkLFlDEswPmDO9HWlwyI_GA",
+          },
+          body: JSON.stringify(user),
+        }
+      );
+
 
       if (response.ok) {
-        fetchUsers();
+        await fetchUsers();
         console.log("Usuario editado correctamente");
       } else {
         throw new Error("Error al editar el usuario");
       }
     } catch (error) {
       console.error(error);
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -112,6 +121,7 @@ export const useUsers = () => {
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxOTE4MDA5MSwiZXhwIjoxNzE5MjE2MDkxfQ.q15jKQUikeuqATseVkGYLb3vkflwIuWT3m_0sXdJbo0",         
+
           },
         }
       );
@@ -123,6 +133,7 @@ export const useUsers = () => {
       }
     } catch (error) {
       console.error(error);
+      throw error;
     } finally {
       setLoading(false);
     }

@@ -18,24 +18,29 @@ export function useClients() {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+
             Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxOTE4MDA5MSwiZXhwIjoxNzE5MjE2MDkxfQ.q15jKQUikeuqATseVkGYLb3vkflwIuWT3m_0sXdJbo0",          },
+
         }
       );
 
       if (response.ok) {
         const jsonResponse = await response.json();
-        setClients(jsonResponse);
+        const formtedClients = jsonResponse;
+        setClients(formtedClients);
       } else {
-        console.error("Error fetching clients data");
+        throw new Error("Error fetching clients data");
       }
     } catch (error) {
-      console.error("Error fetching clients data", error);
+      console.error(error);
+      throw error;
     } finally {
       setLoading(false);
     }
   };
 
   const addClient = async (client) => {
+    setLoading(true);
     try {
       const response = await fetch(
         "https://facturacion-servicios.onrender.com/api/client",
@@ -50,14 +55,20 @@ export function useClients() {
       );
 
       if (response.ok) {
-        fetchClients();
+        await fetchClients();
+      } else {
+        throw new Error("Error al agregar un cliente");
       }
     } catch (error) {
-      console.error("Error creating client", error);
+      console.error(error);
+      throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
   const editClient = async (client) => {
+    setLoading(true);
     try {
       const response = await fetch(
         `https://facturacion-servicios.onrender.com/api/client/${client.id}`,
@@ -66,6 +77,7 @@ export function useClients() {
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxOTE4MDA5MSwiZXhwIjoxNzE5MjE2MDkxfQ.q15jKQUikeuqATseVkGYLb3vkflwIuWT3m_0sXdJbo0",  
+
           },
           body: JSON.stringify(client),
         }
@@ -73,16 +85,21 @@ export function useClients() {
 
       if (response.ok) {
         await fetchClients();
-        await window.location.reload()
+        console.log("Cliente editado correctamente");
+      } else {
+        throw new Error("Error al editar el cliente");
       }
     } catch (error) {
-      console.error("Error editing client", error);
+      console.error (error);
+      throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
   const deleteClient = async (id) => {
+    setLoading(true);
     try {
-      console.log(id);
       const response = await fetch(
         `https://facturacion-servicios.onrender.com/api/client/${id}`,
         {
@@ -90,15 +107,21 @@ export function useClients() {
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxOTE4MDA5MSwiZXhwIjoxNzE5MjE2MDkxfQ.q15jKQUikeuqATseVkGYLb3vkflwIuWT3m_0sXdJbo0",  
+
           },
         }
       );
 
       if (response.ok) {
-        fetchClients();
+        await fetchClients();
+      } else {
+        throw new Error("Error al eliminar el cliente");
       }
     } catch (error) {
-      console.error("Error deleting client", error);
+      console.error(error);
+      throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
