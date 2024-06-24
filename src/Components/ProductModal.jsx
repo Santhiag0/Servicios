@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+"use client"
+
+import React, { useState, useEffect, useRef } from 'react';
 
 const ProductModal = ({ isOpen, onClose, onSave, product, categories }) => {
     const [name, setName] = useState(product ? product.name : '');
@@ -9,6 +11,8 @@ const ProductModal = ({ isOpen, onClose, onSave, product, categories }) => {
     const [newCategory, setNewCategory] = useState('');
     const [fileName, setFileName] = useState('');
 
+    const nameRef = useRef(null);
+
     useEffect(() => {
         if (product) {
             setName(product.name);
@@ -18,6 +22,12 @@ const ProductModal = ({ isOpen, onClose, onSave, product, categories }) => {
             setPrice(product.price);
         }
     }, [product]);
+
+    useEffect(() => {
+        if (isOpen && nameRef.current) {
+            nameRef.current.focus();
+        }
+    }, [isOpen]);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -51,6 +61,7 @@ const ProductModal = ({ isOpen, onClose, onSave, product, categories }) => {
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
+                        ref={nameRef}
                         className="p-2 border rounded w-full text-black"
                     />
                 </div>

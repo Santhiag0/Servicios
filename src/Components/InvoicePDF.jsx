@@ -1,7 +1,7 @@
 import React from 'react';
 import { format } from 'date-fns';
 
-const Invoice = React.forwardRef(({ invoiceData }, ref) => {
+const Invoice = React.forwardRef(function InvoiceComponent({ invoiceData }, ref) {
   const {
     client,
     dateSale,
@@ -15,7 +15,6 @@ const Invoice = React.forwardRef(({ invoiceData }, ref) => {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold text-[#003366]">Nombre Empresa</h1>
-          
         </div>
         <div className="text-right">
           <p><strong>R.U.C.: </strong>1790112233001</p>
